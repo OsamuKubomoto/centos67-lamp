@@ -1,0 +1,40 @@
+- name: be sure libselinux-python is installed
+  yum: name=libselinux-python state=installed
+
+- name: be sure SELinux is disabled
+  sudo: yes
+  selinux: state=disabled
+
+- name: be sure iptabes is stopped
+  service: name=iptables state=stopped
+
+- name: set zone to /etc/sysconfig/clock
+  replace: >
+    dest=/etc/sysconfig/clock
+    regexp='^ZONE=\"UTC\"'
+    replace='ZONE="Asia/Tokyo"'
+
+- name: set localtime
+  file: src=/usr/share/zoneinfo/Asia/Tokyo dest=/etc/localtime state=link force=yes
+
+- name: be sure yum repositories is installed
+  yum: name={{ item }}
+  with_items:
+    - http://ftp-srv2.kddilabs.jp/Linux/distributions/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
+    - http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+
+- name: enable off repositories
+  replace: dest=/etc/yum.repos.d/{{item}} regexp="enabled *= *1" replace="enabled=0"
+  with_items:
+    - epel.repo
+    - remi.repo
+
+- name: be sure wget and vim is installed
+  yum: name={{ item }} state=present
+  with_items:
+    - wget
+    - vim
+    - patch
+    - gcc
+    - gcc-c++
+    - tree

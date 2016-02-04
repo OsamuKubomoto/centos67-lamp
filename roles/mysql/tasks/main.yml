@@ -1,0 +1,26 @@
+- name: be sure mysql is installed
+  yum: name={{ item }} state=installed enablerepo=remi
+  with_items:
+    - mysql-server
+    - MySQL-python
+
+- name: be sure mysqld is running and enabled
+  service: name=mysqld state=started enabled=yes
+
+- name: drop test database
+  mysql_db: name=test state=absent
+
+- name: delete anonymous user
+  mysql_user: name='' state=absent
+  register: result
+  ignore_errors: true
+
+- name: create db user
+  mysql_user: name={{ mysql_user_name }} password={{ mysql_user_password }} priv=*.*:ALL
+
+- name: create db
+  mysql_db: name={{ mysql_db_name }} state=present
+
+- name: edit my.cnf
+  template: src=my.cnf dest=/etc/my.cnf mode=0600
+  notify: restart mysqld

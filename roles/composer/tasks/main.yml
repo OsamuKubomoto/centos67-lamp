@@ -1,0 +1,11 @@
+- name: install composer
+  shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
+
+- name: move composer.phar to composer
+  command: mv /usr/bin/composer.phar /usr/bin/composer
+
+- name: install composer
+  shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar composer
+  args:
+    chdir: /usr/bin
+    creates: /usr/bin/composer

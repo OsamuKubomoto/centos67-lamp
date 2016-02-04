@@ -1,0 +1,9 @@
+- name: be sure phpMyAdmin is installed
+  yum: name=phpMyAdmin state=installed enablerepo=remi
+
+- name: edit config.inc.php
+  template: src=config.inc.php dest=/etc/phpMyAdmin/config.inc.php mode=0644
+
+- name: edit phpMyAdmin.conf
+  template: src=phpMyAdmin.conf dest=/etc/httpd/conf.d/phpMyAdmin.conf mode=0644
+  notify: restart httpd

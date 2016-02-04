@@ -1,0 +1,29 @@
+- name: be sure PHP is installed
+  yum: name={{ item }} enablerepo=epel,remi
+  with_items:
+    - php
+    - php-common
+    - php-devel
+    - php-cli
+    - php-gd
+    - php-mbstring
+    - php-mcrypt
+    - php-mysql
+    - phpMyAdmin
+    - php-pdo
+    - php-xml
+    - php-xmlrpc
+    - php-intl
+    - ImageMagick
+    - ImageMagick-devel
+    - php-pecl-imagick
+    - php-pecl-apc
+    - php-pecl-memcached
+    - php-pgsql
+    - libmcrypt
+  notify: restart httpd
+
+- name: edit php.ini
+  template: src=php.ini dest=/etc/php.ini mode=0644
+  notify: restart httpd
+

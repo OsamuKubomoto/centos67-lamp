@@ -1,0 +1,16 @@
+- name: install httpd
+  yum: name={{ item }} state=installed
+  with_items:
+    - httpd
+    - mod_ssl
+
+- name: start and enable httpd
+  service: name=httpd state=started enabled=yes
+
+- name: edit httpd.conf
+  template: src=httpd.conf dest=/etc/httpd/conf/httpd.conf mode=0644
+  notify: restart httpd
+
+- name: edit ssl.conf
+  template: src=ssl.conf dest=/etc/httpd/conf.d/ssl.conf mode=0644
+  notify: restart httpd
