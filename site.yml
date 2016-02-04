@@ -7,6 +7,7 @@
     - common
     - git
     - httpd
+    - vagrantSyncedfolder
     - php
     - mysql
     - phpMyAdmin

@@ -1,0 +1,11 @@
+- name: check symlink
+  stat: path="/var/www/html"
+  register: html
+
+- name: remove html directory
+  command: rm -rf /var/www/html
+  when: html.stat.isdir == true
+
+- name: create symlink
+  file: src=/vagrant dest=/var/www/html owner=vagrant group=vagrant state=link
+  when: html.stat.isdir == true
