@@ -43,7 +43,7 @@ VagrantfileÇçÏê¨
         web.vm.hostname = "web"
         web.vm.network "private_network", ip: "192.168.33.10"
         web.vm.network :private_network, ip: "192.168.0.1", virtualbox__intnet: "intnet"
-        web.vm.synced_folder ".", "/var/www/html", mount_options: ['dmode=777','fmode=755']
+        web.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ['dmode=777','fmode=755']
         web.vm.provider :virtualbox do |v|
           v.customize ['modifyvm', :id, '--paravirtprovider', 'kvm']
         end
@@ -54,7 +54,7 @@ VagrantfileÇçÏê¨
         ansible.vm.hostname = "ansible"
         ansible.vm.network "private_network", ip: "192.168.33.20"
         ansible.vm.network :private_network, ip: "192.168.0.2", virtualbox__intnet: "intnet"
-        ansible.vm.synced_folder "./provision", "/home/vagrant/provision", mount_options: ['dmode=777','fmode=644']
+        ansible.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ['dmode=777','fmode=755']
         ansible.vm.provider :virtualbox do |v|
           v.customize ['modifyvm', :id, '--paravirtprovider', 'kvm']
         end
