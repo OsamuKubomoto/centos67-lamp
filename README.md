@@ -54,7 +54,7 @@ VagrantfileÇçÏê¨
         ansible.vm.hostname = "ansible"
         ansible.vm.network "private_network", ip: "192.168.33.20"
         ansible.vm.network :private_network, ip: "192.168.0.2", virtualbox__intnet: "intnet"
-        ansible.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ['dmode=777','fmode=755']
+        ansible.vm.synced_folder ".", "/vagrant", mount_options: ['dmode=777','fmode=644']
         ansible.vm.provider :virtualbox do |v|
           v.customize ['modifyvm', :id, '--paravirtprovider', 'kvm']
         end
